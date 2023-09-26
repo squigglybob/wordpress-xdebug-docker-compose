@@ -15,7 +15,7 @@ To quickly setup wordpress from another wp clone.
 3. Add the .htaccess file into the `wordpress` folder
 4. Make sure that the WP and PHP match the versions of the clone in `xdebug/Dockerfile`
 5. Edit `loadDB.sh` to point correctly to your mysql dump
-6. Edit `loadDB.sh` to change any urls in the db to match the url you want to use on your local dev environment
+6. Edit `loadDB.sh` to change any urls in the db to match the url of `yoursite.url` that you want to use on your local dev environment
 7. Run `./loadDB.sh` to load the database into the db using the wp-cli and do a search and replace for the urls
 
 ## Start the containers
@@ -62,3 +62,39 @@ I changed the port number from the default 9003 so that it wouldn't clash with m
 The setup is currently set to only start debugging if a trigger is present in the PHP request from the browser.
 
 I use Xdebug helper plugin in chrome/brave to trigger the debug when desired (otherwise pages can run really slowly or trigger debug points when you don't need/want it to). The plugin adds a cookie `XDEBUG_SESSION=XDEBUG_ECLIPSE` which triggers debug mode.
+
+## Wordpress Multisite
+
+In order to use multisite locally with a named domain I have setup a reverse proxy on my host apache setup
+
+```apacheconf
+<VirtualHost *:80>
+
+        ProxyRequests Off
+        ProxyPreserveHost On
+
+        RewriteEngine On
+
+        RewriteRule ^/(.*) http://localhost:5000/$1 [proxy,last]
+        ProxyPassReverse / http://localhost:5000/
+
+        ServerName yoursite.url
+
+        <Proxy http://localhost:5000>
+
+                Require all granted
+
+                Options None
+
+                ProxySet enablereuse=on
+
+        </Proxy>
+
+</VirtualHost>
+```
+
+and a line in the `/etc/hosts` file
+
+```
+127.0.0.1       yoursite.url
+```
