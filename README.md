@@ -13,10 +13,12 @@ To quickly setup wordpress from another wp clone.
 1. Download a mysql dump into a tables folder
 2. Create a folder called `wordpress` in the root.
 3. Add the .htaccess file into the `wordpress` folder
-4. Make sure that the WP and PHP match the versions of the clone in `xdebug/Dockerfile`
-5. Edit `loadDB.sh` to point correctly to your mysql dump
-6. Edit `loadDB.sh` to change any urls in the db to match the url of `yoursite.url` that you want to use on your local dev environment
-7. Run `./loadDB.sh` to load the database into the db using the wp-cli and do a search and replace for the urls
+4. Create folders `wordpress/wp-content/plugins` and `wordpress/wp-content/themes`
+5. Make sure that the WP and PHP match the versions of the clone in `xdebug/Dockerfile`
+6. Edit `loadDB.sh` to point correctly to your mysql dump
+7. Edit `loadDB.sh` to change any urls in the db to match the url of `yoursite.url` that you want to use on your local dev environment
+8. Edit `loadDB.sh` to change the container names to your container names
+9. Run `./loadDB.sh` to load the database into the db using the wp-cli and do a search and replace for the urls
 
 ## Start the containers
 
