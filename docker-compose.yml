@@ -44,6 +44,7 @@ services:
         define( 'PATH_CURRENT_SITE', '/' );
         define( 'SITE_ID_CURRENT_SITE', 1 );
         define( 'BLOG_ID_CURRENT_SITE', 1 );
+        define( 'WP_MEMORY_LIMIT', '512M' );
         error_reporting(E_ALL & ~E_WARNING & ~E_DEPRECATED & ~E_USER_DEPRECATED & ~E_NOTICE);
       ## Host for my house ##
       XDEBUG_CONFIG: client_host=192.168.10.23 log=/tmp/xdebug.log start_with_request=yes debug_level=10
@@ -58,9 +59,11 @@ services:
     ports:
       - 5025:8025 # web ui
   wp-cli:
-    image: wordpress:cli
+    image: wordpress:cli-php8.2
     volumes:
       - wp_data:/var/www/html
+      - ./wordpress:/var/www/html
+      - ./wordpress/.htaccess:/var/www/html/.htaccess
     depends_on:
       - wordpress
     user: xfs
