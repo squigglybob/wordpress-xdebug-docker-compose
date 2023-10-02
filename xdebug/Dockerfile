@@ -4,6 +4,8 @@ FROM wordpress:6.3.1-php8.2-apache
 RUN apt-get update && \
     apt-get -y install git
 
+RUN a2enmod ssl && a2enmod rewrite
+
 # Install XDebug from source as described here:
 # https://xdebug.org/docs/install
 # Available branches of XDebug could be seen here:
