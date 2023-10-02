@@ -55,12 +55,14 @@ services:
       #XDEBUG_CONFIG: client_host=192.168.0.75 log=/tmp/xdebug.log start_with_request=yes debug_level=10
   mailhog:
     image: mailhog/mailhog
+    restart: always
     logging:
       driver: 'none'  # disable saving logs
     ports:
       - 5025:8025 # web ui
   wp-cli:
     image: wordpress:cli-php8.2
+    restart: always
     volumes:
       - wp_data:/var/www/html
       - ./wordpress:/var/www/html
